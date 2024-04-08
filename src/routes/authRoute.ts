@@ -8,7 +8,10 @@ router.post("/login", (req: Request, res: Response) => {
   let user = { id: 1, username: "user" };
   if (req.body) user = req.body;
 
-  const accessToken = jwt.sign(user, process.env.JWT_SECRET as string);
+  console.log(process.env.JWT_SECRET);
+  const accessToken = jwt.sign(user, process.env.JWT_SECRET as string, {
+    expiresIn: "1h",
+  });
   res.json({ accessToken });
 });
 

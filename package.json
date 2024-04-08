@@ -6,12 +6,12 @@
     "test": "jest --watch",
     "start": "ts-node-dev --respawn  src/index.ts"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.12.5",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "rand-token": "^1.0.1",
