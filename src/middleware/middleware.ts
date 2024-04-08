@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-// Define your custom properties
 interface CustomRequest {
   user: object;
 }
 
-// Merge the custom properties with the existing Request type
 declare global {
   namespace Express {
     interface Request extends CustomRequest {}

@@ -11,7 +11,7 @@ const authenticateToken = (req, res, next) => {
     jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err)
             return res.sendStatus(403);
-        // req.user = user;tsc
+        req.user = user;
         next();
     });
 };
