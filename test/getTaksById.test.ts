@@ -1,0 +1,10 @@
+import request, { Response } from "supertest";
+import app from "../src/app";
+
+describe("GET api/task:taskId", () => {
+  test("get a task by their id", async () => {
+    const id = 1;
+    const d = await request(app).get(`/task/:${id}`);
+    expect(d.statusCode).toBe(200);
+  });
+});

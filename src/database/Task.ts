@@ -1,40 +1,8 @@
-import { ArrowFunction } from "typescript";
 import Services from "../services";
 
-interface Task {
-  id: string;
-  userId: number | null;
-  title: string;
-  description: string;
-  dueDate: Date | null;
-  createdAt: Date;
-  createdBy: string | null;
-  assignedTo: string | null;
-  category: string | null;
-  status: string;
-  isActive: boolean;
-}
+import type { Query, Task } from "../../type";
 
-type Query = {
-  skip: number;
-  limit: number;
-  assignedTo: string | undefined;
-  categoryName: string | undefined;
-};
-
-interface TaskModel {
-  taskList: Task[];
-  task: Task;
-
-  create(task: Task): Task;
-  list(query: Query): Task[];
-  getById(id: number): Task;
-  updateById(id: string, updateSet: object): Task;
-  deleteById(id: number): Task;
-  save(): Task;
-}
-
-class TaskModel implements TaskModel {
+class TaskModel {
   private static taskList: Task[] = [];
   task: Task;
   constructor(task: Task) {
@@ -60,22 +28,22 @@ class TaskModel implements TaskModel {
 
   public static getById(id: string): Task {
     const task: any = this.taskList.find((task: Task) => task.id == id);
-    return task ? task : {};
+    return task;
   }
 
   public static updateById(id: string, updateSet: Task): Task {
     let bool: boolean = false;
     let task: any = this.taskList.find((task: Task) => task.id === id);
-    if (!task) throw new Error("no task found");
+    if (!task) return task;
 
     task = { ...task, ...updateSet };
     return task;
   }
 
-  public static deleteById(id: string) {
+  public static deleteById(id: string): Task[] | null {
     let task: Task[];
     const index = this.taskList.findIndex((task: Task) => task.id == id);
-    if (index < 0) throw new Error("no task found");
+    if (index == -1) return null;
     task = this.taskList.splice(index, 1);
     return task;
   }
@@ -94,12 +62,12 @@ export { Task, Query };
 
 function performQuery(query: Query, task: Task[]): Task[] {
   console.log(query);
-  const skip = query.skip || 0;
+  const skip = query.skip;
   let limit = query.limit;
   let tasks: Task[] = task;
   const taskLength: number = task.length;
 
-  if (skip >= taskLength) throw new Error("invalid page value");
+  if (taskLength && skip >= taskLength) throw new Error("invalid page value");
 
   if (limit >= taskLength) limit = taskLength;
 

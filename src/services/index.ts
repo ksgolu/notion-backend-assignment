@@ -53,15 +53,18 @@ export default {
   },
 
   _checkDesiredValue(key: string, obj: Task): boolean {
+    // let value: any = obj[key];
     switch (key) {
       case "title": {
-        const title: any = obj[key];
-        if (!title || typeof title !== "string" || title.length > 50)
+        let value = obj[key];
+        obj[key] = value.trim();
+        if (!value || typeof value !== "string" || value.length > 50)
           return false;
         break;
       }
       case "description": {
-        const description: any = obj[key];
+        let description: string = obj[key];
+        obj[key] = description.trim();
         if (
           !description ||
           typeof description !== "string" ||
@@ -71,8 +74,8 @@ export default {
         break;
       }
       case "assignedTo": {
-        const asssignedTo: any = obj[key];
-        console.log(asssignedTo);
+        let asssignedTo: string | any = obj[key];
+        obj[key] = asssignedTo.trim();
         if (
           !asssignedTo ||
           typeof asssignedTo != "string" ||
@@ -82,13 +85,15 @@ export default {
         break;
       }
       case "category": {
-        const category: any = obj[key];
+        let category: any = obj[key];
+        obj[key] = category.trim();
         if (!category || typeof category !== "string" || category.length > 100)
           return false;
         break;
       }
       case "status": {
-        const status: any = obj[key];
+        let status: any = obj[key];
+        obj[key] = status.trim();
         if (
           !status ||
           typeof obj[key] !== "string" ||

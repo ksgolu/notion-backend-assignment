@@ -1,18 +1,15 @@
 import { Express, Request, Response } from "express";
-import TaskModel, { Task, Query } from "../database/Task";
+import type { Task, Query } from "../../type";
+import TaskModel from "../database/Task";
 import Services from "../services";
 
 export default (req: Request, res: Response) => {
-  const page = Number(req.query.page) || 1;
-  let limit = Number(req.query.limit);
-  let assignedTo: string | undefined = undefined;
-  let categoryName: string | undefined = undefined;
+  const page: number = Number(req.query.page) || 1;
+  let limit: number = Number(req.query.limit);
+  let assignedTo: string | undefined = req.query.assignedTo?.toString();
+  let categoryName: string | undefined = req.query.categoryName?.toString();
 
-  if (req.query.assignedTo || req.query.categoryName) {
-    assignedTo = req.query.assignedTo?.toString();
-    categoryName = req.query.categoryName?.toString();
-  }
-
+  // handling page and limit
   limit = limit ? limit : 30;
   const skip = page == 1 ? 0 : page * limit - limit;
 
@@ -23,9 +20,11 @@ export default (req: Request, res: Response) => {
     assignedTo,
   };
   try {
-    // const user = req.user
+    // db operations
     const totalTask: number = TaskModel.count();
     const tasks: Task[] = TaskModel.list(query);
+
+    // preparing response data
     const data = {
       tasks,
       count: {

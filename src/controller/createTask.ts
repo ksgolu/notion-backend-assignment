@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import type { Task } from "../database/Task";
+import type { Task } from "../../type";
 import TaskModel from "../database/Task";
 import Services from "../services";
 import { uid } from "rand-token";
@@ -9,11 +9,14 @@ export default (req: Request, res: Response) => {
   const requestBody = req.body;
   let code: number = 500;
   try {
+    // validate request
     if (!Services._validateRequiredField(REQUIRED_FIELDS, requestBody))
       throw new Error("invalid request body");
 
+    //add addition field to request body
     const data = addAdditionField(requestBody);
 
+    // save to database
     const task = new TaskModel(data).save();
 
     Services._response(res, 201, task);
