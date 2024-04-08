@@ -31,6 +31,11 @@ You can use following properties:
 - GET /task/?assignTo=kumar - get all assigned task to 'kumar'
 - GET /task/?categoryName=todo - get all task of category 'todo'
 
+there two more api to demostarte authentication system (JWT)
+
+- POST /auth/login - to login in system
+- GET /auth/me - get your info.
+
 # Run this project
 
 To run this Project, You need following packages
